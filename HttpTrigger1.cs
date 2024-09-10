@@ -1,3 +1,4 @@
+using CasDotnetSdk.PasswordHashers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -18,7 +19,9 @@ namespace Company.Function
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult("Welcome to Azure Functions!");
+            Argon2Wrapper argon2 = new Argon2Wrapper();
+
+            return new OkObjectResult(argon2.HashPassword("Welcome to Azure Functions!"));
         }
     }
 }
